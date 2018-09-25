@@ -182,5 +182,7 @@ public class TuBes {
 /* PROGRESS
 1. Gauss Jordan
 2. Print Augmented format
-3. Cara nge-gauss ada di file GaussDoang.java
+3. Cara ngeGauss udah ada di file ini
+4. Prosedur Interpolate udah ada
+5. menu submenu udah jadi
 */
