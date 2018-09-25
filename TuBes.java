@@ -127,10 +127,10 @@ public class TuBes {
       submenu();
       int sub = scanner.nextInt();
       if (sub==1){
-
+        // pake gauss nanti
       }
       else if (sub==2){
-
+        // pake gauss-jordan ntar
       }
 
     }
