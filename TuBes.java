@@ -48,6 +48,35 @@ public class TuBes {
               }
         }
     }
+    public static void Interpolate(int n){
+      Scanner scanner = new Scanner( System.in );
+      double[][] mat = new double[n][n+1];
+      for(int i = 0;i<n;i++){
+        double x = scanner.nextDouble();
+        double y = scanner.nextDouble();
+        for(int j = 0;j<n+1;j++){
+          if (j==0){
+            mat[i][j] = 1;
+          }
+          else if (j==n){
+            mat[i][j] = y;
+          }
+          else {
+            mat[i][j] = Math.pow(x , j);
+          }
+        }
+      }
+      tulism(mat, n, n+1);
+      submenu();
+      int sub = scanner.nextInt();
+      if (sub==1){
+
+      }
+      else if (sub==2){
+
+      }
+
+    }
     public static void main(String args[]) {
         Scanner scanner = new Scanner( System.in );
         int m = scanner.nextInt();  // converts a String into an int value
