@@ -62,6 +62,19 @@ public class TuBes {
               }
         }
     }
+    public static void ngeGauss(double mx[][],int m,int n){
+        for(int i=0; i<m; i++){
+            susunmatrix(mx,m,n);
+            if(mx[i][i] != 0) {
+                kkalibaris(mx, m, n, (1 / mx[i][i]), i);
+            }
+              for(int a=0; a<m; a++){
+                  if (a > i){ // apabila (a != i), maka terbentuk Gauss-Jordan, apabila (a > i), terbentuk Gauss
+                      kurangbaris(mx,m,n,a,i,mx[a][i]);
+                  }
+              }
+        }
+    }
     public static void hapusbaris(double mx[][],int m,int n,int x){
         for (int j=0; j<n; j++){
             mx[x][j]=0;
@@ -105,7 +118,7 @@ public class TuBes {
                 mx[i][j]=nx[i][j];
             }
         }
-    }
+      }
     public static void Interpolate(int n){
       Scanner scanner = new Scanner( System.in );
       double[][] mat = new double[n][n+1];
@@ -153,13 +166,21 @@ public class TuBes {
         int m = scanner.nextInt();  // converts a String into an int value
         int n = scanner.nextInt();
         double[][] mx = new double[m][n];
+        System.out.println("Sekarang cek Gauss-Jordan");
         TuBes.bacam(mx,m,n);
         gaussjordan(mx,m,n);
         susunkali(mx,m,n);
         TuBes.tulism(mx,m,n);
+        double[][] my = new double[m][n];
+        System.out.println("Sekarang cek Gauss");
+        TuBes.bacam(my,m,n);
+        ngeGauss(my,m,n);
+        susunkali(my,m,n);
+        TuBes.tulism(my,m,n);
     }
 }
 /* PROGRESS
 1. Gauss Jordan
 2. Print Augmented format
+3. Cara nge-gauss ada di file GaussDoang.java
 */
