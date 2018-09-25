@@ -2,10 +2,11 @@
 
 File-file yang ada di Repository ini merupakan kerja keras sia-sia kami ber3<br><br>
 
-Dibuat Oleh
-<li>T. Antra Oksidian Tafly   13517020
-<tab>
-<li> Leonardo                  13517048
+Anggota Kelompok :
+<table>
+<tr><td>1.</td><td>T. Antra Oksidian Tafly</td><td>13517020</td></tr>
 
-<li> Vinsen Marselino Andreas  13517054
-</li>
+<tr><td>2.</td><td>Leonardo</td><td>13517048</td></tr>
+
+<tr><td>3.</td><td>Vinsen Marselino Andreas</td><td>13517054</td></tr>
+</table>
