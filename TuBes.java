@@ -134,6 +134,19 @@ public class TuBes {
       }
 
     }
+    public static int menu(){
+      System.out.println("MENU\n1. Sistem Persamaan Linier\n2. Interpolasi Polinom\n3. Keluar");
+      Scanner scanner = new Scanner( System.in );
+      int a = scanner.nextInt();
+      return a;
+    }
+    public static int submenu(){
+      System.out.println("1. Metode eliminasi Gauss\n2. Metode eliminasi Gauss-Jordan");
+      Scanner scanner = new Scanner( System.in );
+      int a = scanner.nextInt();
+      return a;
+    }
+
     public static void main(String args[]) {
         Scanner scanner = new Scanner( System.in );
         int m = scanner.nextInt();  // converts a String into an int value
