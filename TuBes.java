@@ -105,6 +105,7 @@ public class TuBes {
                 mx[i][j]=nx[i][j];
             }
         }
+    }
     public static void Interpolate(int n){
       Scanner scanner = new Scanner( System.in );
       double[][] mat = new double[n][n+1];
