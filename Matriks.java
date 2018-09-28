@@ -5,6 +5,7 @@ public class Matriks
 {
   public double [][] Isi;
   private int bar, kol;
+  Scanner scanner = new Scanner(System.in);
 
   public Matriks(int m, int n)
   {
@@ -15,7 +16,6 @@ public class Matriks
 
   public void bacam()
   {
-    Scanner scanner = new Scanner( System.in );
     for(int i=0; i<this.bar; i++)
     {
           for(int j=0; j<this.kol; j++)
@@ -182,7 +182,6 @@ public class Matriks
 
   public void Interpolasi(int n)
   {
-    Scanner scanner = new Scanner ( System.in );
     double[][] mat = new double[n][n+1];
 
     for (int i = 0; i < n; i++)
@@ -234,15 +233,15 @@ public class Matriks
   }
 
   public static int menu(){
-    System.out.println("MENU\n1. Sistem Persamaan Linier\n2. Interpolasi Polinom\n3. Keluar");
-    Scanner scanner = new Scanner( System.in );
-    int a = scanner.nextInt();
-    return a;
+    System.out.println("MENU\n1. Sistem Persamaan Linier\n2. Interpolasi Polinom\n3. Keluar\n\n");
+    Scanner scanner = new Scanner(System.in);
+    int hasil = scanner.nextInt();
+    return hasil;
   }
   public static int submenu(){
-    System.out.println("1. Metode eliminasi Gauss\n2. Metode eliminasi Gauss-Jordan");
-    Scanner scanner = new Scanner( System.in );
-    int a = scanner.nextInt();
-    return a;
+    System.out.println("1. Metode eliminasi Gauss\n2. Metode eliminasi Gauss-Jordan\n\n");
+    Scanner scanner = new Scanner(System.in);
+    int hasil = scanner.nextInt();
+    return hasil;
   }
 }
