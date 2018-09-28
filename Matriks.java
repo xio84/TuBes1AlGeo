@@ -1,5 +1,6 @@
 import java.util.*;
 import java.text.*;
+import java.lang.Math.*;
 
 public class Matriks
 {
@@ -28,20 +29,20 @@ public class Matriks
 
   public void tulism()
   {
-    DecimalFormat df = new DecimalFormat("#.###");
+    //DecimalFormat df = new DecimalFormat("#.##");
     for(int i=0; i<this.bar; i++)
     {
           for(int j=0; j<this.kol; j++)
           {
               if (j == (this.kol-1))
               {
-                  System.out.print("| " + df.format(Isi[i][j]));
+                  System.out.print("| " + Isi[i][j]);
               }
               else if ((Isi[i][j] != -0))
               {
-                System.out.print(df.format(Isi[i][j]) + " ");
+                System.out.printf("%.2f ", Isi[i][j]);
               } else {
-                System.out.print(0 + " ");
+                System.out.printf("%.2f ", 0.00);
               }
           }
     System.out.println();
@@ -145,39 +146,45 @@ public class Matriks
   }
   public void Gauss()
   {
-    for(int i=0; i<this.bar; i++)
+    int n = (bar<kol)? bar:kol;
+    for(int i=0; i<n; i++)
     {
-      this.susunmatrix();
+      susunmatrix();
       if(Isi[i][i] != 0)
       {
-          this.kkalibaris(i, (1 / Isi[i][i]));
+          kkalibaris(i, (1 / Isi[i][i]));
       }
-      for(int a=0; a<this.kol; a++)
+
+      for(int a=0; a<bar; a++)
       {
         if (a > i)
         {
-            this.kurangbaris(a, i,Isi[a][i]);
+            kurangbaris(a, i,Isi[a][i]);
         }
       }
     }
   }
   public void GaussJordan()
   {
-    for(int i=0; i<this.bar; i++)
+    Gauss();
+    int n = (bar<kol)? bar:kol;
+    for(int i=0; i<n; i++)
     {
-      this.susunmatrix();
+      susunmatrix();
       if(Isi[i][i] != 0)
       {
-          this.kkalibaris(i, (1 / Isi[i][i]));
+          kkalibaris(i, (1 / Isi[i][i]));
       }
-      for(int a=0; a<this.kol; a++)
+
+      for(int a=0; a<bar; a++)
       {
-        if (a != i)
+        if (a < i)
         {
-            this.kurangbaris(a, i,Isi[a][i]);
+            kurangbaris(a, i,Isi[a][i]);
         }
       }
     }
+
   }
 
   public void Interpolasi(int n)
