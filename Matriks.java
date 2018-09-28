@@ -36,7 +36,7 @@ public class Matriks
           {
               if (j == (this.kol-1))
               {
-                  System.out.print("| " + Isi[i][j]);
+                  System.out.printf("| %.2f", Isi[i][j]);
               }
               else if ((Isi[i][j] != -0))
               {
@@ -209,20 +209,20 @@ public class Matriks
         }
       }
     }
-    DecimalFormat df = new DecimalFormat("#.###"); //print mat
+    /*DecimalFormat df = new DecimalFormat("#.###"); //print mat*/
     for(int i=0; i<n; i++)
     {
         for(int j=0; j<n+1; j++)
         {
           if (j == (n))
           {
-              System.out.print("| " + df.format(mat[i][j]));
+              System.out.printf("| %.2f", mat[i][j]);
           }
           else if ((mat[i][j] != -0))
           {
-            System.out.print(df.format(mat[i][j]) + " ");
+            System.out.printf("%.2f ", mat[i][j]);
           } else {
-            System.out.print(0 + " ");
+            System.out.printf("%.2f ", 0.00);
           }
         }
         System.out.println();
