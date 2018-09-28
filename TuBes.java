@@ -1,12 +1,13 @@
 import java.util.Scanner;  // needed for Scanner
 import java.text.*;
+
 public class TuBes {
     public static void bacam(double mx[][],int m,int n){
         Scanner scanner = new Scanner( System.in );
         for(int i=0; i<m; i++){
               for(int j=0; j<n; j++){
                 mx[i][j]=scanner.nextInt();
-        }
+              }
         }
         System.out.print("\n");
     }
@@ -24,8 +25,8 @@ public class TuBes {
                 } else {
                   System.out.print(0 + " ");
                 }
-        }
-        System.out.print("\n");
+              }
+        System.out.println();
         }
     }
     public static void kkalibaris(double mx[][],int m,int n,double x,int i){
@@ -182,7 +183,6 @@ public class TuBes {
 /* PROGRESS
 1. Gauss Jordan
 2. Print Augmented format
-3. Cara ngeGauss udah ada di file ini
-4. Prosedur Interpolate udah ada
-5. menu submenu udah jadi
+3. Cara nge-gauss ada di file GaussDoang.java
+4. uda ngebuat Matriks.Java
 */

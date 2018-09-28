@@ -5,8 +5,8 @@ File-file yang ada di Repository ini merupakan kerja keras sia-sia kami ber3<br>
 Project Name : TuBes AlGeo 1 (Matrix)
 
 FileName :
-  <li>TuBes.java
-  <li>GaussDoang.java
+  <li>TuBes.java (apaan nih samsek blom kelar)
+  <li>Matriks.java (apaan dah ini)
 
 Language : Java
 
