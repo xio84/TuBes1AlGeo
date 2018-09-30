@@ -9,6 +9,8 @@ public class Matriks
   Scanner scanner = new Scanner(System.in);
 
   public Matriks(int m, int n)
+  //I.S. m dan n terdefinisi
+  //F.S. terbentuk matriks dengan jumlah baris m dan jumlah kolom n
   {
     this.bar = m;
     this.kol = n;
@@ -16,6 +18,8 @@ public class Matriks
   }
 
   public void bacam()
+  //I.S. ukuran Isi terdefinisi
+  //F.S. Matriks Isi memiliki isi sesuai input user
   {
     for(int i=0; i<this.bar; i++)
     {
@@ -28,6 +32,8 @@ public class Matriks
   }
 
   public void tulism()
+  //I.S. Isi terdefinisi
+  //F.S. menampilkan Matriks Isi dengan format Augmented Matriks
   {
     //DecimalFormat df = new DecimalFormat("#.##");
     for(int i=0; i<this.bar; i++)
@@ -50,6 +56,8 @@ public class Matriks
   }
 
   public void kkalibaris(int i, double x)
+  //I.S. Matriks Isi dan skalar terdefinsisi
+  //F.S. Salah satu baris matriks Isi dikalikan dengan skalar
   {
     for(int j=0; j<this.kol; j++)
     {
@@ -58,6 +66,8 @@ public class Matriks
   }
 
   public void kurangbaris(int i1, int i2, double x)
+  //I.S. matriks Isi, nomor baris, dan skalar terdefinisi
+  //F.S. salah satu baris pada matriks dikurangi dengan skalar*baris lain
   {
     for(int j=0; j<this.kol; j++)
     {
@@ -66,6 +76,8 @@ public class Matriks
   }
 
   public void susunkali()
+  //I.S. Isi terdefinisi
+  //F.S. membuat semua pivot point menjadi 1
   {
     for(int i=0; i<this.bar; i++)
     {
@@ -81,6 +93,8 @@ public class Matriks
   }
 
   public void hapusbaris(double mx[][], int n,int i)
+  //I.S. Isi terdefinsisi
+  //F.S. menghapus(mengganti semua elemen dengan 0) dalam satu baris
   {
     for (int j=0; j<n; j++)
     {
@@ -145,6 +159,8 @@ public class Matriks
     }
   }
   public void Gauss()
+  //I.S. Isi terdefinsisi
+  //F.F menghasilkan matriks yang sudah menjadi Row Echelon Form
   {
     int n = (bar<kol)? bar:kol;
     for(int i=0; i<n; i++)
@@ -165,6 +181,8 @@ public class Matriks
     }
   }
   public void GaussJordan()
+  //I.S. Isi terdefinsisi
+  //F.S. terbentuk matriks yang sudah menjadi bentuk Gauss-Jordan
   {
     Gauss();
     int n = (bar<kol)? bar:kol;
@@ -188,6 +206,9 @@ public class Matriks
   }
 
   public void Interpolasi(int n)
+  //I.S. banyaknya titik terdefinsisi
+  //F.S. membentuk sebuah matriks interpolasi dan memberikan solusi.
+  //Lalu membuat persamaan polinom dan menyelesaikan fungsinya
   {
     double[][] mat = new double[n][n+1];
 
@@ -239,13 +260,17 @@ public class Matriks
     }
   }
 
-  public static int menu(){
+  public static int menu()
+  //menuliskan menu awal dan membaca masukan menu
+  {
     System.out.println("MENU\n1. Sistem Persamaan Linier\n2. Interpolasi Polinom\n3. Keluar\n\n");
     Scanner scanner = new Scanner(System.in);
     int hasil = scanner.nextInt();
     return hasil;
   }
-  public static int submenu(){
+  public static int submenu()
+  //menuliskan submenu(metode yang ingin digunakan) dan menerima masukan
+  {
     System.out.println("1. Metode eliminasi Gauss\n2. Metode eliminasi Gauss-Jordan\n\n");
     Scanner scanner = new Scanner(System.in);
     int hasil = scanner.nextInt();
