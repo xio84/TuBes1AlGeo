@@ -1,6 +1,7 @@
 import java.util.*;
 import java.text.*;
 import java.lang.Math.*;
+import java.io.*;
 
 public class Matriks
 {
@@ -202,7 +203,6 @@ public class Matriks
         }
       }
     }
-
   }
 
   public void Interpolasi(int n)
@@ -259,7 +259,7 @@ public class Matriks
       // pake gauss-jordan ntar
     }
   }
-    public void bacafile()
+  public void bacafile()
   //Membaca file yang berisi matriks dan mengisikan ke bentuk matriks
   {
     try
@@ -267,7 +267,11 @@ public class Matriks
       int Nbar = -1;
       int Nkol = -1;
       ArrayList<ArrayList<Double>> baca = new ArrayList<ArrayList<Double>>();
-      File f = new File("matriks.txt");
+      String namfil = new String();
+      System.out.print("Masukkan Nama File(diakhiri .txt) : ");
+      namfil = scanner.nextLine(); //menginput nama file
+      System.out.println();
+      File f = new File(namfil);
       Scanner sb = new Scanner(f);
       while (sb.hasNextLine())
       {
@@ -283,7 +287,7 @@ public class Matriks
       }
       if (Nbar == -1)
       {
-        System.out.println("wrong file");
+        System.out.println("File Kosong");
       }
       else
       {
@@ -299,12 +303,12 @@ public class Matriks
       }
     } catch (Exception e) {
             System.out.println("Error : " + e);
-        }
+    }
   }
   public static int menu1()
   //menuliskan menu awal dan membaca masukan menu
   {
-    System.out.println("MENU\n1. Sistem Persamaan Linier\n2. Interpolasi Polinom\n3. Keluar\n");
+    System.out.println("\nMENU 1\n1. Sistem Persamaan Linier\n2. Interpolasi Polinom\n3. Keluar\n");
     Scanner scanner = new Scanner(System.in);
     System.out.print("Inputmu : ");
     int hasil = scanner.nextInt();
@@ -313,7 +317,7 @@ public class Matriks
 
   public static int menu2()
   {
-    System.out.println("MENU\n1. Matriks Input\n2. Matriks dari File\n3. Keluar\n");
+    System.out.println("\nMENU 2\n1. Matriks Input\n2. Matriks dari File\n3. Keluar\n");
     Scanner scanner = new Scanner(System.in);
     System.out.print("Inputmu : ");
     int hasil = scanner.nextInt();
@@ -322,7 +326,7 @@ public class Matriks
 
   public static int menu3()
   {
-    System.out.println("MENU\n1. Gauss\n2. Gauss Jordan\n3. Keluar\n");
+    System.out.println("\nMENU 3\n1. Gauss\n2. Gauss Jordan\n3. Keluar\n");
     Scanner scanner = new Scanner(System.in);
     System.out.print("Inputmu : ");
     int hasil = scanner.nextInt();
