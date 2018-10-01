@@ -87,14 +87,10 @@ public class Matriks
   {
     for(int i=0; i<this.bar; i++)
     {
-        int j = -1;
-        do {
-            j++;
-            if(Isi[i][j] != 0)
-            {
-                this.kkalibaris(i, (1/(Isi[i][j])));
-            }
-        } while (j<(this.kol-1) && Isi[i][j]==0);
+      if (pivotpoint(i) != -999)
+      {
+        kkalibaris(i, (1/(Isi[i][pivotpoint(i)])));
+      }
     }
   }
 
@@ -128,7 +124,17 @@ public class Matriks
       return -999; //nanti klo dia -999 maka dia no/inf solution
     }
   }
-  
+
+  public void tukarbaris(int i1, int i2)
+  {
+    for (int j = 0; j < this.kol; j++)
+    {
+      double temp = Isi[i1][j];
+      Isi[i1][j] = Isi[i2][j];
+      Isi[i2][j] = temp;
+    }
+  }
+
   public void susunmatrix()
   {
     int[] rank = new int[this.bar];
@@ -186,24 +192,44 @@ public class Matriks
         }
     }
   }
+  public boolean IsiBarNol(int i) //baris ke-i
+  {
+    boolean semua = true;
+    int j = 0;
+    while ((j < this.kol) && semua)
+    {
+      if (Isi[i][j] != 0)
+      {
+        semua = false;
+      } else {
+        j++;
+      }
+    }
+    return semua;
+  }
   public void Gauss()
   //I.S. Isi terdefinsisi
-  //F.F menghasilkan matriks yang sudah menjadi Row Echelon Form
+  //F.S. menghasilkan matriks yang sudah menjadi Row Echelon Form
   {
     int n = (bar<kol)? bar:kol;
     for(int i=0; i<n; i++)
     {
       susunmatrix();
-      if(Isi[i][i] != 0)
-      {
-          kkalibaris(i, (1 / Isi[i][i]));
-      }
+      susunkali();
 
-      for(int a=0; a<bar; a++)
+      if (!this.IsiBarNol(i))
       {
-        if (a > i)
+        for (int a = i+1; a<this.bar; a++)
         {
-            kurangbaris(a, i,Isi[a][i]);
+          if (!this.IsiBarNol(a))
+          {
+            double x = (-1) * Isi[a][pivotpoint(i)] / Isi[i][pivotpoint(i)];
+            for (int b = 0; b < this.kol; b++)
+            {
+              Isi[a][b] += x * Isi[i][b];
+            }
+          }
+          Isi[a][pivotpoint(i)] = 0;
         }
       }
     }
@@ -217,10 +243,7 @@ public class Matriks
     for(int i=0; i<n; i++)
     {
       susunmatrix();
-      if(Isi[i][i] != 0)
-      {
-          kkalibaris(i, (1 / Isi[i][i]));
-      }
+      susunkali();
 
       for(int a=0; a<bar; a++)
       {
