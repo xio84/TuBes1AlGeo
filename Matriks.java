@@ -8,6 +8,8 @@ public class Matriks
   public double [][] Isi;
   private int bar, kol;
   Scanner scanner = new Scanner(System.in);
+  public String pers, persI;
+  public double hasil;
 
   public Matriks(int m, int n)
   //I.S. m dan n terdefinisi
@@ -16,6 +18,9 @@ public class Matriks
     this.bar = m;
     this.kol = n;
     Isi = new double[m][n];
+    pers = new String("");
+    persI = new String("");
+    this.hasil=0;
   }
 
   public void bacam()
@@ -258,6 +263,41 @@ public class Matriks
     {
       // pake gauss-jordan ntar
     }
+  }
+  
+  public void solveGaussJordan()
+    //I.S. Isi terdefinisi dan dalam bentuk row echelon
+    //F.S. Terbentuk persamaan dari matriks row echelon
+  {
+      GaussJordan();
+      int n = (bar < kol) ? bar : kol;
+      if(Isi[0][0]!=0){
+          pers=pers + "X" + "1" + " = " + String.format("%.2f", Isi[0][kol-1]) + ";";
+      }
+      for (int i = 1; i < n; i++) {
+          pers=pers + "X" + (i+1) + " = " + String.format("%.2f", Isi[i][kol-1]) + ";";
+      }
+  }
+   public void solveInterpolasi(int x)
+    //I.S. Isi terdefinisi dan dalam bentuk row echelon
+    //F.S. Terbentuk persamaan interpolasi dari matriks row echelon
+  {
+      int n = (bar < kol) ? bar : kol;
+      if(Isi[0][0]!=0){
+          persI=persI + String.format("%.2f", Isi[0][kol-1]) + "X^" + (n-1);
+      }
+      for (int i = 1; i < n; i++) {
+          if((n-1-i)==0){
+              persI=persI + "+" + String.format("%.2f", Isi[i][kol-1]);
+          }
+          else {
+              persI = persI + "+" + String.format("%.2f", Isi[i][kol - 1]) + "X^" + (n - 1 - i);
+          }
+      }
+      persI=persI + "=0";
+      for (int i =0; i<n; i++){
+          this.hasil=this.hasil+((Math.round((Isi[i][kol-1])*100)/100)*(x^(n-1-i)));
+      }
   }
   public void bacafile()
   //Membaca file yang berisi matriks dan mengisikan ke bentuk matriks
