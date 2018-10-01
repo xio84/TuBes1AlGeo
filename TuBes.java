@@ -12,7 +12,9 @@ public class TuBes {
         mat.bacam();
         mat.GaussJordan();
         mat.tulism();
-
+        mat.solveGaussJordan();
+        mat.solveInterpolasi(3);
+        System.out.printf("%.2f",mat.hasil);
     }
 }
 /* PROGRESS
