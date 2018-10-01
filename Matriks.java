@@ -107,6 +107,28 @@ public class Matriks
         mx[i][j]=0;
     }
   }
+
+  public int pivotpoint(int i)//parameter i adalah baris yang pivotpoint nya dicari
+  {
+    int j = 0; boolean found = false;
+    while ((j < this.kol-1) && !(found)) //cuma dicek sampe kol-2 karena this.kol-1 isinya jawaban augmented
+    {
+      if (Isi[i][j] != 0)
+      {
+        found = true;
+      } else {
+        j++;
+      }
+    }
+
+    if (found)
+    {
+      return j;
+    } else {
+      return -999; //nanti klo dia -999 maka dia no/inf solution
+    }
+  }
+  
   public void susunmatrix()
   {
     int[] rank = new int[this.bar];
@@ -264,7 +286,7 @@ public class Matriks
       // pake gauss-jordan ntar
     }
   }
-  
+
   public void solveGaussJordan()
     //I.S. Isi terdefinisi dan dalam bentuk row echelon
     //F.S. Terbentuk persamaan dari matriks row echelon
