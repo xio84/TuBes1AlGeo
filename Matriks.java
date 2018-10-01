@@ -248,7 +248,7 @@ public class Matriks
         }
         System.out.println();
     }
-    submenu();
+    menu3();
     int sub = scanner.nextInt();
     if (sub==1)
     {
@@ -301,22 +301,30 @@ public class Matriks
             System.out.println("Error : " + e);
         }
   }
-
-
-
-  public static int menu()
+  public static int menu1()
   //menuliskan menu awal dan membaca masukan menu
   {
-    System.out.println("MENU\n1. Sistem Persamaan Linier\n2. Interpolasi Polinom\n3. Keluar\n\n");
+    System.out.println("MENU\n1. Sistem Persamaan Linier\n2. Interpolasi Polinom\n3. Keluar\n");
     Scanner scanner = new Scanner(System.in);
+    System.out.print("Inputmu : ");
     int hasil = scanner.nextInt();
     return hasil;
   }
-  public static int submenu()
-  //menuliskan submenu(metode yang ingin digunakan) dan menerima masukan
+
+  public static int menu2()
   {
-    System.out.println("1. Metode eliminasi Gauss\n2. Metode eliminasi Gauss-Jordan\n\n");
+    System.out.println("MENU\n1. Matriks Input\n2. Matriks dari File\n3. Keluar\n");
     Scanner scanner = new Scanner(System.in);
+    System.out.print("Inputmu : ");
+    int hasil = scanner.nextInt();
+    return hasil;
+  }
+
+  public static int menu3()
+  {
+    System.out.println("MENU\n1. Gauss\n2. Gauss Jordan\n3. Keluar\n");
+    Scanner scanner = new Scanner(System.in);
+    System.out.print("Inputmu : ");
     int hasil = scanner.nextInt();
     return hasil;
   }
