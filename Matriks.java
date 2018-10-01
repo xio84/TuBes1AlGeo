@@ -259,6 +259,50 @@ public class Matriks
       // pake gauss-jordan ntar
     }
   }
+    public void bacafile()
+  //Membaca file yang berisi matriks dan mengisikan ke bentuk matriks
+  {
+    try
+    {
+      int Nbar = -1;
+      int Nkol = -1;
+      ArrayList<ArrayList<Double>> baca = new ArrayList<ArrayList<Double>>();
+      File f = new File("matriks.txt");
+      Scanner sb = new Scanner(f);
+      while (sb.hasNextLine())
+      {
+          Nbar++;
+          baca.add(new ArrayList<Double>());
+          String sebaris = sb.nextLine();
+          Scanner sa = new Scanner(sebaris);
+          while (sa.hasNextDouble())
+          {
+            Double angka = sa.nextDouble();
+            baca.get(Nbar).add(angka);
+          }
+      }
+      if (Nbar == -1)
+      {
+        System.out.println("wrong file");
+      }
+      else
+      {
+        Nkol = baca.get(0).size();
+        this.Isi = new double[baca.size()][baca.get(0).size()];
+        for (int i = 0; i <= Nbar ; i++){
+          for (int j = 0; j < Nkol ; j++){
+              Isi[i][j] = baca.get(i).get(j);
+          }
+        }
+        this.bar = Nbar + 1;
+        this.kol = Nkol;
+      }
+    } catch (Exception e) {
+            System.out.println("Error : " + e);
+        }
+  }
+
+
 
   public static int menu()
   //menuliskan menu awal dan membaca masukan menu
