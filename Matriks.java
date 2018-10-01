@@ -305,6 +305,31 @@ public class Matriks
             System.out.println("Error : " + e);
     }
   }
+
+  public boolean nosol()
+  {
+    int i = this.bar-1;
+    int j = 0; boolean iya = false;
+    boolean IsNoSol = false;
+    while ((j <= this.kol-1) && !(iya))
+    {
+      if (j != this.kol-1)
+      {
+        if (Isi[i][j] == 0)
+        {
+          j++;
+        } else {
+          iya = true;
+        }
+      } else { //j == this.kol-1
+        if (Isi[i][j] != 0)
+        {
+          IsNoSol = true;
+        }
+      }
+    }
+    return IsNoSol;
+  }
   public static int menu1()
   //menuliskan menu awal dan membaca masukan menu
   {
