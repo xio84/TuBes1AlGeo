@@ -1,14 +1,15 @@
 import java.util.*;
 import java.text.*;
 import java.lang.Math.*;
+import java.io.*;
 
 public class Matriks
 {
   public double [][] Isi;
   private int bar, kol;
+  Scanner scanner = new Scanner(System.in);
   public String pers, persI;
   public double hasil;
-  Scanner scanner = new Scanner(System.in);
 
   public Matriks(int m, int n)
   //I.S. m dan n terdefinisi
@@ -86,14 +87,10 @@ public class Matriks
   {
     for(int i=0; i<this.bar; i++)
     {
-        int j = -1;
-        do {
-            j++;
-            if(Isi[i][j] != 0)
-            {
-                this.kkalibaris(i, (1/(Isi[i][j])));
-            }
-        } while (j<(this.kol-1) && Isi[i][j]==0);
+      if (pivotpoint(i) != -999)
+      {
+        kkalibaris(i, (1/(Isi[i][pivotpoint(i)])));
+      }
     }
   }
 
@@ -106,6 +103,38 @@ public class Matriks
         mx[i][j]=0;
     }
   }
+
+  public int pivotpoint(int i)//parameter i adalah baris yang pivotpoint nya dicari
+  {
+    int j = 0; boolean found = false;
+    while ((j < this.kol-1) && !(found)) //cuma dicek sampe kol-2 karena this.kol-1 isinya jawaban augmented
+    {
+      if (Isi[i][j] != 0)
+      {
+        found = true;
+      } else {
+        j++;
+      }
+    }
+
+    if (found)
+    {
+      return j;
+    } else {
+      return -999; //nanti klo dia -999 maka dia no/inf solution
+    }
+  }
+
+  public void tukarbaris(int i1, int i2)
+  {
+    for (int j = 0; j < this.kol; j++)
+    {
+      double temp = Isi[i1][j];
+      Isi[i1][j] = Isi[i2][j];
+      Isi[i2][j] = temp;
+    }
+  }
+
   public void susunmatrix()
   {
     int[] rank = new int[this.bar];
@@ -163,24 +192,44 @@ public class Matriks
         }
     }
   }
+  public boolean IsiBarNol(int i) //baris ke-i
+  {
+    boolean semua = true;
+    int j = 0;
+    while ((j < this.kol) && semua)
+    {
+      if (Isi[i][j] != 0)
+      {
+        semua = false;
+      } else {
+        j++;
+      }
+    }
+    return semua;
+  }
   public void Gauss()
   //I.S. Isi terdefinsisi
-  //F.F menghasilkan matriks yang sudah menjadi Row Echelon Form
+  //F.S. menghasilkan matriks yang sudah menjadi Row Echelon Form
   {
     int n = (bar<kol)? bar:kol;
     for(int i=0; i<n; i++)
     {
       susunmatrix();
-      if(Isi[i][i] != 0)
-      {
-          kkalibaris(i, (1 / Isi[i][i]));
-      }
+      susunkali();
 
-      for(int a=0; a<bar; a++)
+      if (!this.IsiBarNol(i))
       {
-        if (a > i)
+        for (int a = i+1; a<this.bar; a++)
         {
-            kurangbaris(a, i,Isi[a][i]);
+          if (!this.IsiBarNol(a))
+          {
+            double x = (-1) * Isi[a][pivotpoint(i)] / Isi[i][pivotpoint(i)];
+            for (int b = 0; b < this.kol; b++)
+            {
+              Isi[a][b] += x * Isi[i][b];
+            }
+          }
+          Isi[a][pivotpoint(i)] = 0;
         }
       }
     }
@@ -194,10 +243,7 @@ public class Matriks
     for(int i=0; i<n; i++)
     {
       susunmatrix();
-      if(Isi[i][i] != 0)
-      {
-          kkalibaris(i, (1 / Isi[i][i]));
-      }
+      susunkali();
 
       for(int a=0; a<bar; a++)
       {
@@ -207,43 +253,6 @@ public class Matriks
         }
       }
     }
-
-  }
-
-  public void solveGaussJordan()
-    //I.S. Isi terdefinisi dan dalam bentuk row echelon
-    //F.S. Terbentuk persamaan dari matriks row echelon
-  {
-      GaussJordan();
-      int n = (bar < kol) ? bar : kol;
-      if(Isi[0][0]!=0){
-          pers=pers + "X" + "1" + " = " + String.format("%.2f", Isi[0][kol-1]) + ";";
-      }
-      for (int i = 1; i < n; i++) {
-          pers=pers + "X" + (i+1) + " = " + String.format("%.2f", Isi[i][kol-1]) + ";";
-      }
-  }
-
-  public void solveInterpolasi(int x)
-    //I.S. Isi terdefinisi dan dalam bentuk row echelon
-    //F.S. Terbentuk persamaan interpolasi dari matriks row echelon
-  {
-      int n = (bar < kol) ? bar : kol;
-      if(Isi[0][0]!=0){
-          persI=persI + String.format("%.2f", Isi[0][kol-1]) + "X^" + (n-1);
-      }
-      for (int i = 1; i < n; i++) {
-          if((n-1-i)==0){
-              persI=persI + "+" + String.format("%.2f", Isi[i][kol-1]);
-          }
-          else {
-              persI = persI + "+" + String.format("%.2f", Isi[i][kol - 1]) + "X^" + (n - 1 - i);
-          }
-      }
-      persI=persI + "=0";
-      for (int i =0; i<n; i++){
-          this.hasil=this.hasil+((Math.round((Isi[i][kol-1])*100)/100)*(x^(n-1-i)));
-      }
   }
 
   public void Interpolasi(int n)
@@ -289,7 +298,7 @@ public class Matriks
         }
         System.out.println();
     }
-    submenu();
+    menu3();
     int sub = scanner.nextInt();
     if (sub==1)
     {
@@ -301,19 +310,135 @@ public class Matriks
     }
   }
 
-  public static int menu()
+  public void solveGaussJordan()
+    //I.S. Isi terdefinisi dan dalam bentuk row echelon
+    //F.S. Terbentuk persamaan dari matriks row echelon
+  {
+      GaussJordan();
+      int n = (bar < kol) ? bar : kol;
+      if(Isi[0][0]!=0){
+          pers=pers + "X" + "1" + " = " + String.format("%.2f", Isi[0][kol-1]) + ";";
+      }
+      for (int i = 1; i < n; i++) {
+          pers=pers + "X" + (i+1) + " = " + String.format("%.2f", Isi[i][kol-1]) + ";";
+      }
+  }
+   public void solveInterpolasi(int x)
+    //I.S. Isi terdefinisi dan dalam bentuk row echelon
+    //F.S. Terbentuk persamaan interpolasi dari matriks row echelon
+  {
+      int n = (bar < kol) ? bar : kol;
+      if(Isi[0][0]!=0){
+          persI=persI + String.format("%.2f", Isi[0][kol-1]) + "X^" + (n-1);
+      }
+      for (int i = 1; i < n; i++) {
+          if((n-1-i)==0){
+              persI=persI + "+" + String.format("%.2f", Isi[i][kol-1]);
+          }
+          else {
+              persI = persI + "+" + String.format("%.2f", Isi[i][kol - 1]) + "X^" + (n - 1 - i);
+          }
+      }
+      persI=persI + "=0";
+      for (int i =0; i<n; i++){
+          this.hasil=this.hasil+((Math.round((Isi[i][kol-1])*100)/100)*(x^(n-1-i)));
+      }
+  }
+  public void bacafile()
+  //Membaca file yang berisi matriks dan mengisikan ke bentuk matriks
+  {
+    try
+    {
+      int Nbar = -1;
+      int Nkol = -1;
+      ArrayList<ArrayList<Double>> baca = new ArrayList<ArrayList<Double>>();
+      String namfil = new String();
+      System.out.print("Masukkan Nama File(diakhiri .txt) : ");
+      namfil = scanner.nextLine(); //menginput nama file
+      System.out.println();
+      File f = new File(namfil);
+      Scanner sb = new Scanner(f);
+      while (sb.hasNextLine())
+      {
+          Nbar++;
+          baca.add(new ArrayList<Double>());
+          String sebaris = sb.nextLine();
+          Scanner sa = new Scanner(sebaris);
+          while (sa.hasNextDouble())
+          {
+            Double angka = sa.nextDouble();
+            baca.get(Nbar).add(angka);
+          }
+      }
+      if (Nbar == -1)
+      {
+        System.out.println("File Kosong");
+      }
+      else
+      {
+        Nkol = baca.get(0).size();
+        this.Isi = new double[baca.size()][baca.get(0).size()];
+        for (int i = 0; i <= Nbar ; i++){
+          for (int j = 0; j < Nkol ; j++){
+              Isi[i][j] = baca.get(i).get(j);
+          }
+        }
+        this.bar = Nbar + 1;
+        this.kol = Nkol;
+      }
+    } catch (Exception e) {
+            System.out.println("Error : " + e);
+    }
+  }
+
+  public boolean nosol()
+  {
+    int i = this.bar-1;
+    int j = 0; boolean iya = false;
+    boolean IsNoSol = false;
+    while ((j <= this.kol-1) && !(iya))
+    {
+      if (j != this.kol-1)
+      {
+        if (Isi[i][j] == 0)
+        {
+          j++;
+        } else {
+          iya = true;
+        }
+      } else { //j == this.kol-1
+        if (Isi[i][j] != 0)
+        {
+          IsNoSol = true;
+        }
+      }
+    }
+    return IsNoSol;
+  }
+  public static int menu1()
   //menuliskan menu awal dan membaca masukan menu
   {
-    System.out.println("MENU\n1. Sistem Persamaan Linier\n2. Interpolasi Polinom\n3. Keluar\n\n");
+    System.out.println("\nMENU 1\n1. Sistem Persamaan Linier\n2. Interpolasi Polinom\n3. Keluar\n");
     Scanner scanner = new Scanner(System.in);
+    System.out.print("Inputmu : ");
     int hasil = scanner.nextInt();
     return hasil;
   }
-  public static int submenu()
-  //menuliskan submenu(metode yang ingin digunakan) dan menerima masukan
+
+  public static int menu2()
   {
-    System.out.println("1. Metode eliminasi Gauss\n2. Metode eliminasi Gauss-Jordan\n\n");
+    System.out.println("\nMENU 2\n1. Matriks Input\n2. Matriks dari File\n3. Keluar\n");
     Scanner scanner = new Scanner(System.in);
+    System.out.print("Inputmu : ");
+    int hasil = scanner.nextInt();
+    return hasil;
+  }
+
+  public static int menu3()
+  {
+    System.out.println("\nMENU 3\n1. Gauss\n2. Gauss Jordan\n3. Keluar\n");
+    Scanner scanner = new Scanner(System.in);
+    System.out.print("Inputmu : ");
     int hasil = scanner.nextInt();
     return hasil;
   }
