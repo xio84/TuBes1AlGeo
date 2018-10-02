@@ -331,49 +331,46 @@ public class Matriks
     return a;
   }
   public void solveGaussJordan()
-      //I.S. Isi terdefinisi dan dalam bentuk row echelon
-      //F.S. Terbentuk persamaan dari matriks row echelon
-  {
-      GaussJordan();
-      int n = (bar < kol) ? bar : kol;
-      if(Isi[0][0]!=0){
-          pers=pers + "X" + "1" + " = " + String.format("%.2f", Isi[0][kol-1]) + ";";
-      }
-      for (int i = 1; i < n; i++) {
-          pers=pers + "X" + (i+1) + " = " + String.format("%.2f", Isi[i][kol-1]) + ";";
-      }
-  }
-  public void solveGaussJordan2()
     //I.S. Isi terdefinisi dan dalam bentuk row echelon
     //F.S. Terbentuk persamaan dari matriks row echelon
   {
       GaussJordan();
       String[] hasil = new String[this.kol-1];
 
-      //inisialisasi hasil dengan string kosong
       for (int k = 0; k < this.kol-1; k++)
       {
-        hasil[k] = "";
+        hasil[k] = String.format("X%d =", k+1);
       }
-      for (int i = this.bar-1; i >= 0; i--)
+      for (int i = 0; i < this.bar; i++)
       {
-        if (!this.IsiBarNol(i))
+        if (!IsiBarNol(i))
         {
-          if (IsBarParametrik(i)) //klo parametrik
+          if (Isi[i][this.kol-1] != 0)
           {
-            for (int k = pivotpoint(i) + 1; k < this.kol-1; k++)
+            hasil[pivotpoint(i)] += String.format(" %.2f", Isi[i][this.kol-1]);
+          }
+          for (int j = 0; j < this.kol-1; j++)
+          {
+            if ((Isi[i][j] != 0) && j != pivotpoint(i))
             {
-              hasil[k] += String.format(".2f", (-1) * Isi[i][k]);
+              if (Isi[i][j] > 0)
+              {
+                hasil[pivotpoint(i)] += String.format(" -%.2f u%d", Isi[i][j], j+1);
+              } else /*Isi[i][j] < 0 */ {
+                hasil[pivotpoint(i)] += String.format(" + %.2f u%d", Isi[i][j], j+1);
+              }
             }
-          } else {
-            hasil[this.kol-1] += String.format(".2f", Isi[i][this.kol-1]);
           }
         }
       }
-
+      //mencari variabel bebas sambil meletakkannya di pers
       for (int k = 0; k < this.kol-1; k++)
       {
-        pers += String.format("X%d = ", k+1) + hasil[k] + "\n";
+        if (hasil[k].charAt(hasil[k].length()-1) == '=')
+        {
+          hasil[k] += String.format(" u%d", k+1);
+        }
+        pers += hasil[k] + "\n";
       }
   }
    public void solveInterpolasi(int x)
@@ -483,6 +480,7 @@ public class Matriks
       }
     } while (simpan != "y" || simpan != "n" || simpan != "Y" || simpan != "N");
   }
+
   public boolean nosol()
   {
     int i = this.bar-1;
