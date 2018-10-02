@@ -270,48 +270,38 @@ public class Matriks
     }
   }
 
-  public void Interpolasi(int n)
+  public void Interpolasi()
   //I.S. banyaknya titik terdefinsisi
   //F.S. membentuk sebuah matriks interpolasi dan memberikan solusi.
   //Lalu membuat persamaan polinom dan menyelesaikan fungsinya
   {
-    double[][] mat = new double[n][n+1];
+    double[][] mat = new double[this.bar][this.bar+1];
 
-    for (int i = 0; i < n; i++)
+    for (int i = 0; i < this.bar; i++)
     {
-      double x = scanner.nextDouble();
-      double y = scanner.nextDouble();
-      for(int j = 0; j < n+1 ; j++)
+      for(int j = 0; j < this.bar+1 ; j++)
       {
         if (j == 0)
         {
           mat[i][j] = 1;
         }
-        else if (j == n)
+        else if (j == this.bar)
         {
-          mat[i][j] = y;
+          mat[i][j] = Isi[i][1];
         } else {
-          mat[i][j] = Math.pow(x , j);
+          mat[i][j] = Math.pow(Isi[i][0] , j);
         }
       }
     }
-    for(int i=0; i<n; i++)
+    this.kol = this.bar + 1;
+    for (int i = 0; i < this.bar; i++)
     {
-        for(int j=0; j<n+1; j++)
-        {
-          if (j == (n))
-          {
-              System.out.printf("| %.2f", mat[i][j]);
-          }
-          else if ((mat[i][j] != -0))
-          {
-            System.out.printf("%.2f ", mat[i][j]);
-          } else {
-            System.out.printf("%.2f ", 0.00);
-          }
-        }
-        System.out.println();
+      for(int j = 0; j < this.kol ; j++)
+      {
+        Isi[i][j] = mat[i][j];
+      }
     }
+    tulism();
     menu3();
     int sub = scanner.nextInt();
     if (sub==1)
@@ -324,9 +314,25 @@ public class Matriks
     }
   }
 
+  public boolean IsBarParametrik(int i)
+  /* true = baris ini parametrik
+     false = baris biasa
+  */
+  {
+    boolean a = false;
+    int j = 0;
+    while ((j < this.kol-1) && !a)
+    {
+      if ((j != pivotpoint(i)) && Isi[i][j] != 0)
+      {
+        a = true;
+      }
+    }
+    return a;
+  }
   public void solveGaussJordan()
-    //I.S. Isi terdefinisi dan dalam bentuk row echelon
-    //F.S. Terbentuk persamaan dari matriks row echelon
+      //I.S. Isi terdefinisi dan dalam bentuk row echelon
+      //F.S. Terbentuk persamaan dari matriks row echelon
   {
       GaussJordan();
       int n = (bar < kol) ? bar : kol;
@@ -335,6 +341,39 @@ public class Matriks
       }
       for (int i = 1; i < n; i++) {
           pers=pers + "X" + (i+1) + " = " + String.format("%.2f", Isi[i][kol-1]) + ";";
+      }
+  }
+  public void solveGaussJordan2()
+    //I.S. Isi terdefinisi dan dalam bentuk row echelon
+    //F.S. Terbentuk persamaan dari matriks row echelon
+  {
+      GaussJordan();
+      String[] hasil = new String[this.kol-1];
+
+      //inisialisasi hasil dengan string kosong
+      for (int k = 0; k < this.kol-1; k++)
+      {
+        hasil[k] = "";
+      }
+      for (int i = this.bar-1; i >= 0; i--)
+      {
+        if (!this.IsiBarNol(i))
+        {
+          if (IsBarParametrik(i)) //klo parametrik
+          {
+            for (int k = pivotpoint(i) + 1; k < this.kol-1; k++)
+            {
+              hasil[k] += String.format(".2f", (-1) * Isi[i][k]);
+            }
+          } else {
+            hasil[this.kol-1] += String.format(".2f", Isi[i][this.kol-1]);
+          }
+        }
+      }
+
+      for (int k = 0; k < this.kol-1; k++)
+      {
+        pers += String.format("X%d = ", k+1) + hasil[k] + "\n";
       }
   }
    public void solveInterpolasi(int x)
@@ -404,7 +443,46 @@ public class Matriks
             System.out.println("Error : " + e);
     }
   }
-
+  public void tulisf(boolean SPL)
+  //I.S. jenis jawaban sudah terdefinsisi
+  //F.S. membentuk file dengan isi sesuai dengan jawaban yang sudah didapat.
+  {
+    String simpan = "y";
+    do
+    {
+      System.out.print("Apakah hasil ingin disimpan ke dalam file?(y/n)\n");
+      simpan = scanner.next();
+      if ((simpan == "y") || (simpan == "Y"))
+      {
+        System.out.print("Masukkan Nama File(diakhiri .txt) : ");
+        String namafile = scanner.next();
+        try
+        {
+          File f = new File(namafile);
+          if (!(f.exists()))
+          {
+            f.createNewFile();
+          }
+          FileWriter fileWriter = new FileWriter(namafile);
+          PrintWriter printWriter = new PrintWriter(fileWriter);
+          if (SPL)
+          {
+            solveGaussJordan();
+            printWriter.print(pers);
+            printWriter.close();
+          }
+          else
+          {
+            //untuk interpolasi
+          }
+        }
+        catch (IOException e)
+        {
+          e.printStackTrace();
+        }
+      }
+    } while (simpan != "y" || simpan != "n" || simpan != "Y" || simpan != "N");
+  }
   public boolean nosol()
   {
     int i = this.bar-1;
