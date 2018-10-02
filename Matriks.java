@@ -226,11 +226,19 @@ public class Matriks
             double x = (-1) * Isi[a][pivotpoint(i)] / Isi[i][pivotpoint(i)];
             for (int b = 0; b < this.kol; b++)
             {
-              Isi[a][b] += x * Isi[i][b];
+              Isi[a][b] += (x * Isi[i][b]);
             }
           }
           Isi[a][pivotpoint(i)] = 0;
         }
+      }
+    }
+
+    for (int c = 0; c < this.bar; c++)
+    {
+      if (!this.IsiBarNol(c))
+      {
+        this.kkalibaris(c, (1/Isi[c][this.pivotpoint(c)]));
       }
     }
   }
@@ -240,16 +248,23 @@ public class Matriks
   {
     Gauss();
     int n = (bar<kol)? bar:kol;
-    for(int i=0; i<n; i++)
+    for (int i = n-1; i > 0; i--)
     {
       susunmatrix();
       susunkali();
 
-      for(int a=0; a<bar; a++)
+      if(!this.IsiBarNol(i))
       {
-        if (a < i)
+        for (int j = i-1; j >= 0; j--)
         {
-            kurangbaris(a, i,Isi[a][i]);
+          if (!this.IsiBarNol(j))
+          {
+            double x = (-1) * Isi[j][this.pivotpoint(i)];
+            for (int b = 0; b < this.kol; b++)
+            {
+              Isi[j][b] += (x * Isi[i][b]);
+            }
+          }
         }
       }
     }
@@ -280,7 +295,6 @@ public class Matriks
         }
       }
     }
-    /*DecimalFormat df = new DecimalFormat("#.###"); //print mat*/
     for(int i=0; i<n; i++)
     {
         for(int j=0; j<n+1; j++)
