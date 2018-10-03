@@ -194,10 +194,13 @@ public class Matriks
     }
   }
   public boolean IsiBarNol(int i) //baris ke-i
+  /* mengembalikan true jika seluruh elemen isi baris i bernilai 0 (kecuali elemen hasil)
+     mengembalikan false jika tidak
+  */
   {
     boolean semua = true;
     int j = 0;
-    while ((j < this.kol) && semua)
+    while ((j < this.kol-1) && semua)
     {
       if (Isi[i][j] != 0)
       {
@@ -366,27 +369,27 @@ public class Matriks
         pers += hasil[k] + "\n";
       }
   }
-   public void solveInterpolasi()
-    //I.S. Isi terdefinisi dan dalam bentuk row echelon
-    //F.S. Terbentuk persamaan interpolasi dari matriks row echelon
-  {
-      int n = (bar < kol) ? bar : kol;
-      if(Isi[0][0]!=0){
-          persI=persI + String.format("%.2f", Isi[0][kol-1]) + "X^" + (n-1);
-      }
-      for (int i = 1; i < n; i++) {
-          if((n-1-i)==0){
-              persI=persI + "+" + String.format("%.2f", Isi[i][kol-1]);
-          }
-          else {
-              persI = persI + "+" + String.format("%.2f", Isi[i][kol - 1]) + "X^" + (n - 1 - i);
-          }
-      }
-      persI=persI + "= f(X)";
-      for (int i =0; i<n; i++){
-          this.hasil=this.hasil+((Math.round((Isi[i][kol-1])*100)/100)*(x^(n-1-i)));
-      }
-  }
+  public void solveInterpolasi()
+   //I.S. Isi terdefinisi dan dalam bentuk row echelon
+   //F.S. Terbentuk persamaan interpolasi dari matriks row echelon
+ {
+     int n = (bar < kol) ? bar : kol;
+     if(Isi[0][0]!=0){
+         persI=persI + String.format("%.2f", Isi[0][kol-1]) + "X^" + (n-1);
+     }
+     for (int i = 1; i < n; i++) {
+         if((n-1-i)==0){
+             persI=persI + "+" + String.format("%.2f", Isi[i][kol-1]);
+         }
+         else {
+             persI = persI + "+" + String.format("%.2f", Isi[i][kol - 1]) + "X^" + (n - 1 - i);
+         }
+     }
+     persI=persI + "= f(X)";
+     for (int i =0; i<n; i++){
+         this.hasil=this.hasil+((Math.round((Isi[i][kol-1])*100)/100)*(x^(n-1-i)));
+     }
+ }
   public void bacafile()
   //Membaca file yang berisi matriks dan mengisikan ke bentuk matriks
   {
@@ -459,13 +462,12 @@ public class Matriks
           {
             solveGaussJordan();
             printWriter.print(pers);
+            printWriter.close();
           }
           else
           {
-            printWriter.print(persI);
-            printWriter.println("f(" + x + ") = " + this.hasil);
+            //untuk interpolasi
           }
-          printWriter.close();
         }
         catch (IOException e)
         {
@@ -499,7 +501,6 @@ public class Matriks
     }
     return IsNoSol;
   }
-
   public static int menu1()
   //menuliskan menu awal dan membaca masukan menu
   {
