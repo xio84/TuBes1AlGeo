@@ -331,12 +331,15 @@ public class Matriks
     return a;
   }
   public void solveGaussJordan()
-    //I.S. Isi terdefinisi dan dalam bentuk row echelon
-    //F.S. Terbentuk persamaan dari matriks row echelon
+  //prekondisi pemanggilan : matriks sudah berbentuk gauss jordan
+  //UDAH BISA PARAMETRIK LOH KEREN GAK GW (VINSEN)
+    /* I.S. Isi terdefinisi dan dalam bentuk row echelon
+       F.S. Terbentuk persamaan dari matriks row echelon
+    */
   {
       GaussJordan();
       String[] hasil = new String[this.kol-1];
-
+      // inisialisasi hasil[k]
       for (int k = 0; k < this.kol-1; k++)
       {
         hasil[k] = String.format("X%d =", k+1);
@@ -351,13 +354,13 @@ public class Matriks
           }
           for (int j = 0; j < this.kol-1; j++)
           {
-            if ((Isi[i][j] != 0) && j != pivotpoint(i))
+            if ((Isi[i][j] != 0) && j != pivotpoint(i)) //maka dia pasti variabel bebas
             {
               if (Isi[i][j] > 0)
               {
                 hasil[pivotpoint(i)] += String.format(" -%.2f u%d", Isi[i][j], j+1);
               } else /*Isi[i][j] < 0 */ {
-                hasil[pivotpoint(i)] += String.format(" + %.2f u%d", Isi[i][j], j+1);
+                hasil[pivotpoint(i)] += String.format(" +%.2f u%d", Isi[i][j], j+1);
               }
             }
           }

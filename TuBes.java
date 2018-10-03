@@ -35,6 +35,9 @@ public class TuBes {
             mat.GaussJordan();
             System.out.println("Bentuk RREF Matriksmu :");
             mat.tulism();
+            System.out.println("Hasil Solve Gauss-Jordan mu :");
+            mat.solveGaussJordan();
+            System.out.println(mat.pers);
           }
           else if (hasil3 == 3)
           {
@@ -59,6 +62,9 @@ public class TuBes {
             mat.GaussJordan();
             System.out.println("Bentuk RREF Matriksmu :");
             mat.tulism();
+            System.out.println("Hasil Solve Gauss-Jordan mu :");
+            mat.solveGaussJordan();
+            System.out.println(mat.pers);
           }
           else if (hasil3 == 3)
           {
