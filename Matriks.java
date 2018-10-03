@@ -10,6 +10,7 @@ public class Matriks
   Scanner scanner = new Scanner(System.in);
   public String pers, persI;
   public double hasil;
+  public int x;
 
   public Matriks(int m, int n)
   //I.S. m dan n terdefinisi
@@ -301,17 +302,6 @@ public class Matriks
         Isi[i][j] = mat[i][j];
       }
     }
-    tulism();
-    menu3();
-    int sub = scanner.nextInt();
-    if (sub==1)
-    {
-      // pake gauss nanti
-    }
-    else if (sub==2)
-    {
-      // pake gauss-jordan ntar
-    }
   }
 
   public boolean IsBarParametrik(int i)
@@ -376,7 +366,7 @@ public class Matriks
         pers += hasil[k] + "\n";
       }
   }
-   public void solveInterpolasi(int x)
+   public void solveInterpolasi()
     //I.S. Isi terdefinisi dan dalam bentuk row echelon
     //F.S. Terbentuk persamaan interpolasi dari matriks row echelon
   {
@@ -392,7 +382,7 @@ public class Matriks
               persI = persI + "+" + String.format("%.2f", Isi[i][kol - 1]) + "X^" + (n - 1 - i);
           }
       }
-      persI=persI + "=0";
+      persI=persI + "= f(X)";
       for (int i =0; i<n; i++){
           this.hasil=this.hasil+((Math.round((Isi[i][kol-1])*100)/100)*(x^(n-1-i)));
       }
@@ -469,12 +459,13 @@ public class Matriks
           {
             solveGaussJordan();
             printWriter.print(pers);
-            printWriter.close();
           }
           else
           {
-            //untuk interpolasi
+            printWriter.print(persI);
+            printWriter.println("f(" + x + ") = " + this.hasil);
           }
+          printWriter.close();
         }
         catch (IOException e)
         {
@@ -508,6 +499,7 @@ public class Matriks
     }
     return IsNoSol;
   }
+
   public static int menu1()
   //menuliskan menu awal dan membaca masukan menu
   {
